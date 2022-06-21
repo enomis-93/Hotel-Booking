@@ -3,10 +3,13 @@ package it.lipari.booking;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Scanner;
 
 import it.lipari.hotel.Room;
 
 public class BookingManager {
+	Scanner scanner = new Scanner(System.in);
 
 	// Prenotazioni per cliente
 	HashMap<String, ArrayList<Booking>> bookingsPerClient = new HashMap<String, ArrayList<Booking>>();
@@ -60,17 +63,67 @@ public class BookingManager {
 	}
 
 	// Metodo per rimozione prenotazione
-	public void removeBooking() {
+	public void removeBooking(String bookingID, String email) {
+		ArrayList<Booking> userBooking = bookingsPerClient.get(email);
+			
+		if (bookingsPerClient.containsKey(email)) {
+			//Ricavo l'array di prenotazioni corrispondenti all'utente
 
+			userBooking.removeIf(b -> b.getId().equals(bookingID));
+//			Iterator<Booking> it = userBooking.iterator();
+//			while (it.hasNext()) {
+//		        if (it.next().getId().equals(bookingID)) {
+//		            it.remove();
+//		            break;
+//		        }
+//		    }
+//			for (Booking booking : userBooking) {
+//				if (booking.getId() == bookingID) {
+//					userBooking.remove(booking);
+//				}
+//			}
+//			System.out.println(userBooking.toString());
+//			System.out.println(bookingsPerClient.toString());
+			System.out.println("Prenotazione cancellata con successo!");
+			
+			
+		} else {
+			System.out.println("Non ci risultano prenotazioni registrate a questa mail.");
+		}
+
+	}
+
+	public void showBookingPerClient(String email) {
+		//Verifica che ci sono prenotazioni effettuate con una determinata email
+		if (bookingsPerClient.containsKey(email)) {
+			//Ricavo l'array di prenotazioni corrispondenti all'utente
+			ArrayList<Booking> userBooking = bookingsPerClient.get(email);
+			for (Booking booking : userBooking) {
+				System.out.println(
+						"Prenotazione no. "+ booking.getId() + " Camera n°: " + booking.getRoom().getNumber() + " Prenotata per il: " + booking.getDate());
+			}
+		} else {
+			System.out.println("Non ci risultano prenotazioni registrate a questa mail.");
+		}
 	}
 
 	// Metodo modifica prenotaizone
 	public void editBooking() {
 
 	}
-	
-	//Metodo per mostrare le stanze disponibili
+
+	// Metodo per mostrare le stanze disponibili
 	public void roomsAvailable() {
-		
+
+	}
+	
+	public void backToMenu() {
+		System.out.println("Desidera tornare al menù principale ?\n" + "[1] Si\n" + "[Press ANY button] No");
+		int choice1 = scanner.nextInt();
+
+		if (choice1 != 1) {
+			System.out.println("Grazie, a presto!");
+			return;
+		}
 	}
 }

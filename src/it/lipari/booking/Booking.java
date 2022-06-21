@@ -2,10 +2,12 @@ package it.lipari.booking;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.Random;
+
 import it.lipari.hotel.Room;
 
 public class Booking {
-
+	String id;
 	// Stanza prenotata
 	Room room;
 	// Data per il quale è stata prenotata
@@ -19,18 +21,26 @@ public class Booking {
 	boolean cancelled = false;
 	float amountPaid = 0.0f;
 
-	//Costruttore
+	// Costruttore
 	public Booking(Room r, Date date2, String email) {
+		id = randomId();
 		room = r;
 		date = date2;
 		clientEmail = email;
 	}
 
-
 	@Override
 	public String toString() {
-		return "{Booking room=" + room + ", date=" + date + ", clientEmail=" + clientEmail + ", capacity=" + capacity
-				+ ", confirmed=" + confirmed + ", amountPaid=" + amountPaid + "}";
+		return "\n{"+ "Booking ID: " + id + "\n Booking room=" + room + ",\n date=" + date + ",\n clientEmail=" + clientEmail + ",\n capacity="
+				+ capacity + ",\n confirmed=" + confirmed + ",\n amountPaid=" + amountPaid + "\n}";
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public Room getRoom() {
@@ -89,4 +99,14 @@ public class Booking {
 		this.amountPaid = amountPaid;
 	}
 
+	public String randomId() {
+		  // Random instance
+        Random r = new Random();
+        int n = r.nextInt();
+        
+        // n stores the random integer in defcimal form
+        String Hexadecimal = Integer.toHexString(n);
+        
+        return Hexadecimal;
+	}
 }
