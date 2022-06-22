@@ -1,6 +1,5 @@
 package it.lipari.main;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -40,7 +39,7 @@ public class Main {
 			// Stampiamo il menu delle operazioni
 			System.out.println("\nCon quali delle seguenti operazioni vuole proseguire?\n" + "[1] Prenota una camera\n"
 					+ "[2] Libera una camera\n" + "[3] Mostra prenotazioni utente\n" + "[4] Cancella una prenotazione\n"
-					+ "[0] Esci dall'hotel\n");
+					+ "[5] Modifica prenotazione\n" +"[0] Esci dall'hotel\n");
 
 			int choice = scan.nextInt();
 
@@ -78,18 +77,15 @@ public class Main {
 							String email = scan.next();
 							println("Per quale data vuole prenotare la stanza: ");
 
-							println("Anno (YYYY): ");
-							int year = scan.nextInt();
-							println("Mese (MM): ");
-							int month = scan.nextInt();
 							println("Giorno (DD): ");
 							int day = scan.nextInt();
+							println("Mese (MM): ");
+							int month = scan.nextInt();
+							println("Anno (YYYY): ");
+							int year = scan.nextInt();
 
 							LocalDate ld = LocalDate.of(year, month, day);
-							
-							SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-							String formattedDate = formatter.format(ld);
-							Date date = java.sql.Date.valueOf(formattedDate);
+							Date date = java.sql.Date.valueOf(ld);
 
 							for (Room room : hotel.getStandardRooms()) {
 								if (room.getNumber() == bookRoomNo) {
@@ -180,6 +176,7 @@ public class Main {
 				} while (true);
 				continue;
 			case 2:
+				//TODO Case Da completare
 				// Recuperare le camere occupate e chiedi quale camera il cliente vuole liberare
 				// Libera una stanza
 
@@ -246,7 +243,7 @@ public class Main {
 				println("Inserisca la sua e-mail");
 				userEmail = scan.next();
 
-				println("Ecco la lista delle sue prenotazioni");
+				println("Ecco la lista delle sue prenotazioni: ");
 				bookingManager.showBookingPerClient(userEmail);
 
 				println("Quali delle sue prenotazioni vuole cancellare ?");
@@ -257,7 +254,22 @@ public class Main {
 				bookingManager.backToMenu();
 
 				continue;
+			case 5: 
+				println("Salve ha deciso di modificare una prenotazione, la preghiamo di inserire la sua mail per verificare quali prenotazione ha effettauto");
+				println("Inserisca la sua e-mail");
+				userEmail = scan.next();
+				System.out.println("Quali delle sue prenotazioni desidera modificare ?");
+				
+				bookingManager.showBookingPerClient(userEmail);
+				
+				System.out.println("Inserisca l'id della prenotazione corrispondente");
+				System.out.println("ID: ");
+				String bookingToEdit = scan.next();
+				bookingManager.editBooking(bookingToEdit, userEmail);
 
+				bookingManager.backToMenu();
+
+				continue;
 			case 0:
 				// Esci dall'hotel
 				println("Arrivederci e buona giornata !");
@@ -266,7 +278,7 @@ public class Main {
 			default:
 				println("L'operazione da lei richiesta non è tra quelle disponibili");
 				continue;
-			}
+			}  
 //			
 			stay = scan.nextInt() != 0;
 
